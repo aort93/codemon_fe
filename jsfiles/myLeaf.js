@@ -4,10 +4,13 @@ let rightBorder = -0.15621;
 let leftBorder = -0.18758;
 
 
-var left = 51.50789;
-var right = -0.16825;
-var center = [left, right];
+
+
+var latitude = 51.50789;
+var longitude = -0.16825;
+var center = [latitude, longitude];
 var map = L.map('map', {drawControl: false}).setView(center, 18);
+
 
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
  attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -36,7 +39,7 @@ var options = {
           }
     },
     // disable toolbar item by setting it to false
-    polyline: true,
+    polyline: false,
     circle: true, // Turns off this drawing tool
     polygon: true,
     marker: true,
@@ -52,7 +55,7 @@ var options = {
 // Initialise the draw control and pass it the FeatureGroup of editable layers
 var drawControl = new L.Control.Draw(options);
 
-// var newImg = map.addControl(drawControl);
+var newImg = map.addControl(drawControl);
 
 var editableLayers = new L.FeatureGroup();
 map.addLayer(editableLayers);
@@ -81,20 +84,21 @@ var cen = L.marker(center).addTo(map);
 
 document.addEventListener("keydown", keyDownHandler);
 
-let horizonatal = 0;
+let horizontal = 0;
 let vertical = 0;
 let keyCodes = [37, 38, 39, 40]
-let warning = 'No capturing of codemon is only allowed in this park';
+let warning = 'No capturing of codemon! Codemon catching is only allowed in this park!';
 
 function keyDownHandler(e) {
   ////refactor code later
   if (keyCodes.includes(e.keyCode)) {
   map.removeLayer(cen);
   let newMarker;
+
     if(e.keyCode === 39) {
       if (rightBorder - 0.00006 >= cen._latlng.lng) {
-        horizonatal += 0.00005;
-        center = [left + vertical, right + horizonatal];
+        horizontal += 0.00005;
+        center = [latitude + vertical, longitude + horizontal];
         newMarker = L.marker(center).addTo(map);
         cen = newMarker;
       } else {
@@ -103,34 +107,44 @@ function keyDownHandler(e) {
     }
 
     if(e.keyCode == 37) {
-      horizonatal -= 0.00005
-      center = [left + vertical, right + horizonatal];
+      if (leftBorder + 0.00006 <= cen._latlng.lng) {
+      horizontal -= 0.00005
+      center = [latitude + vertical, longitude + horizontal];
       newMarker = L.marker(center).addTo(map);
       cen = newMarker;
-      console.log(cen._latlng)
+      }else {
+      alert(warning);
+      }
     }
 
     if(e.keyCode == 38) {
+      if (topBorder - 0.00006 >= cen._latlng.lat) {
       vertical += 0.00005
-      center = [left + vertical, right + horizonatal];
+      center = [latitude + vertical, longitude + horizontal];
       newMarker = L.marker(center).addTo(map);
       cen = newMarker;
+      }else {
+        alert(warning);
+      }
     }
 
     if(e.keyCode == 40) {
+      if (bottomBorder + 0.00006 <= cen._latlng.lat) {
       vertical -= 0.00005
-      center = [left + vertical, right + horizonatal];
+      center = [latitude + vertical, longitude + horizontal];
       newMarker = L.marker(center).addTo(map);
       cen = newMarker;
+      } else {
+      alert(warning);
+      }
     }
   }
 }
 
-function onMapClick(e) {
-  alert("You clicked the map at " + e.latlng);
-}
-
-map.on('click', onMapClick);
+// function onMapClick(e) {
+//   alert("You clicked the map at " + e.latlng);
+// }
+// map.on('click', onMapClick);
 
 
 
