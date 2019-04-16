@@ -1,0 +1,39 @@
+/* Simple dashboard grid CSS */
+
+/* Assign grid instructions to our parent grid container */
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 200px;
+    grid-template-rows: 100px 1fr 300px;
+    grid-template-areas:
+      "header logodiv "
+      "main sidenav" 
+      "footer footer";
+    height: 100vh;
+  }
+  
+  /* Give every child element its grid name */
+  .welcome-header {
+    grid-area: header;
+    background-color: #648ca6;
+  }
+
+  .logodiv {
+    grid-area: logodiv;
+    background-color: #394263;
+  }
+  
+  .sidenav {
+    grid-area: sidenav;
+    background-color: #394263;
+  }
+  
+  .main {
+    grid-area: main;
+    background-color: #8fd4d9;
+  }
+  
+  .quiz-footer {
+    grid-area: footer;
+    background-color: #648ca6;
+  }
