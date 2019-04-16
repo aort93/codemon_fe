@@ -11,6 +11,7 @@ const foundPokecount = 0;
 
 // DOM Variables
 let quizContainer = document.getElementById('quiz-container')
+let codemonBelt = document.getElementById('codemon-belt')
 
 
 //Start Point of Game
@@ -244,10 +245,14 @@ function monsterFled(monster) {
   map.removeLayer(monster.marker);
 }
 
+// TODO: Update to grid, populate grid with images and monster names
 function catchMonster(monster) {
   if (!caughtCode.includes(monster.name)) {
     caughtCode.push(monster.name);
-    document.getElementById('caught-codemon').innerHTML += `<li>${monster.name}</li>`
+    monster.caughtOrder = caughtCode.indexOf(monster.name) + 1
+    console.log(monster)
+    console.log(monster.caughtOrder)
+    renderCodemonBelt(monster)
   }
 
   map.removeLayer(monster.monsterBorder);
@@ -263,6 +268,39 @@ function catchMonster(monster) {
 // map.on('click', onMapClick);
 
 // *****************Code for Quiz***************************** Refactor out interaction logic, quiz logic etc.
+function renderCodemonBelt(monster) {
+  renderNumber(monster)
+  renderCaughtCodemonImg(monster)
+  renderCaughtCodemonName(monster)
+}
+
+function renderNumber(monster) {
+  const caughtNum = document.createElement('div')
+  caughtNum.innerText = 1
+  caughtNum.className = "caught-num"
+  codemonBelt.appendChild(caughtNum)
+  caughtNum.style.gridArea = "codemon" + monster.caughtOrder + "Num"
+}
+
+function renderCaughtCodemonImg(monster) {
+  const caughtImgDiv = document.createElement('div')
+  const caughtImg = document.createElement('img')
+  caughtImg.src = monster.image
+  caughtImg.className = "caught-img"
+  caughtImgDiv.appendChild(caughtImg)
+  codemonBelt.appendChild(caughtImgDiv)
+  caughtImgDiv.style.gridArea = "codemon" + monster.caughtOrder +  "Img"
+}
+
+function renderCaughtCodemonName(monster) {
+  const caughtName = document.createElement('div')
+  caughtName.innerText = monster.name
+  caughtName.className = "caught-name"
+  codemonBelt.appendChild(caughtName)
+  caughtName.style.gridArea = "codemon" + monster.caughtOrder + "Name"
+}
+
+
 function renderBattle(monster) {
   // extend this to render the battle scene, pause other activity, render question, etc.
   renderQuestion(monster)
