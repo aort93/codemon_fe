@@ -5,6 +5,7 @@
       <link rel="stylesheet" type="text/css" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
       <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw-src.css">
       <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css">
+      <link rel="stylesheet" type="text/css" href="css/codemon.css" />
 
 
       <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script>
@@ -19,11 +20,13 @@
    </head>
 
    <body>
-      <h1>Leaflet Example</h1>
-
-      <p>Here's a map where our awesome game will exist.</p>
-
-      <div id="map" style="height: 600px; border: 1px solid #AAA;"></div>
+      <div id="console-container" class="grid-container">
+         <header id="welcome-container" class="welcome-header">Welcome!</header>
+         <div class="logo-div"></div>
+         <main id="map" class="main" style="height: 100%; border: 1px solid #AAA;"></main>
+         <aside id="caught-codemon" class="sidenav">Caught Codemon</aside>
+         <footer id="quiz-container" class="quiz-footer">Quiz section</footer>
+      </div>
 
       <script src='./jsfiles/adapter.js'> </script>
       <script src='./jsfiles/myLeaf.js'> </script>
