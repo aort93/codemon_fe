@@ -97,6 +97,7 @@ function keyDownHandler(e) {
                 alert(`${monster.name} ran away!`)
                 monsterFled(monster)
               }
+              clearQuiz()
             })
           }
         })
@@ -139,6 +140,7 @@ function keyDownHandler(e) {
                 alert(`${monster.name} ran away!`)
                 monsterFled(monster)
               }
+              clearQuiz()
             })
           }
         })
@@ -180,6 +182,7 @@ function keyDownHandler(e) {
                 alert(`${monster.name} ran away!`)
                 monsterFled(monster)
               }
+              clearQuiz()
             })
           }
         })
@@ -221,6 +224,7 @@ function keyDownHandler(e) {
                 alert(`${monster.name} ran away!`)
                 monsterFled(monster)
               }
+              clearQuiz()
             })
           }
         })
@@ -229,6 +233,10 @@ function keyDownHandler(e) {
       }
     }
   }
+}
+
+function clearQuiz() {
+  quizContainer.innerHTML = ""
 }
 
 function monsterFled(monster) {
