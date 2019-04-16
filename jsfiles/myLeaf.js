@@ -1,8 +1,6 @@
-const url = 'http://localhost:3000/api/v1/monsters'
-const codemonAdapter = adapter('url')
+const codemonAdapter = adapter('http://localhost:3000/api/v1/monsters')
 
-
-
+let caughtPoke = [];
 //Map Border Values
 let topBorder = 51.51175;
 let bottomBorder = 51.50245;
@@ -14,7 +12,7 @@ let leftBorder = -0.18758;
 let latitude = 51.50789;
 let longitude = -0.16825;
 let center = [latitude, longitude];
-let map = L.map('map', {drawControl: false}).setView(center, 18);
+let map = L.map('map', {drawControl: false}).setView(center, 15);
 
 //Global values for our player icon movement event listeners
 let horizontal = 0;
@@ -90,7 +88,7 @@ let drawControl = new L.Control.Draw(options);
 
 let newImg = map.addControl(drawControl);
 
-let editableLayers = new L.FeatureGroup();
+var editableLayers = new L.FeatureGroup();
 map.addLayer(editableLayers);
 
 map.on('draw:created', function(e) {
@@ -138,9 +136,11 @@ function keyDownHandler(e) {
         newCircle = new L.Circle(center, 35, {color: 'red', opacity: 0.001}).addTo(map)
         circle = newCircle;
         if (circle.getBounds().intersects(randoCir.getBounds())) {
-          console.log('caught the random pokemon!!!')
-          map.removeLayer(randoCir);
-          map.removeLayer(rando);
+          rando.bindPopup('It is time to battle! RAWRRR!').openPopup();
+          setTimeout(() => {
+            map.closePopup();
+          }, 5500)
+          document.addEventListener('keydown', ansInput)
         }
       } else {
           alert(warning);
@@ -218,6 +218,16 @@ function keyDownHandler(e) {
       alert(warning);
       }
     }
+  }
+}
+
+function ansInput (e) {
+  if (e.keyCode === 65) {
+    console.log('nice!')
+    caughtPoke.push('codemon1');
+    map.removeLayer(randoCir);
+    map.removeLayer(rando);
+    return true;
   }
 }
 
