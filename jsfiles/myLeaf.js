@@ -9,6 +9,8 @@ let caughtCode = [];
 let monsterBoundaries = [];
 const foundPokecount = 0;
 
+// DOM Variables
+let quizContainer = document.getElementById('quiz-container')
 
 
 //Start Point of Game
@@ -217,6 +219,12 @@ function catchMonster(monster) {
   map.removeLayer(monster.marker);
 }
 
+document.addEventListener('click', e => {
+  console.log(monstersFromAPI[0])
+  console.log(monstersFromAPI[0].questions[0])
+  renderQuiz(monstersFromAPI[0])
+})
+
 
 
 //function to help us find longitude and latitude on our map
@@ -224,3 +232,29 @@ function catchMonster(monster) {
 //   alert("You clicked the map at " + e.latlng);
 // }
 // map.on('click', onMapClick);
+
+// *****************Code for Quiz***************************** Refactor out interaction logic, quiz logic etc.
+function renderQuiz(monster) {
+  renderQuestion(monster)
+  monster.answers.forEach(renderAnswer)
+}
+
+function renderQuestion(monster) {
+  const questionBox = document.createElement('div')
+  // TODO: refactor to pull random question from this monsters question list after mvp
+  questionBox.className = "question"
+  questionBox.innerText = monster.questions[0].question_text
+  quizContainer.appendChild(questionBox)
+  questionBox.style.gridArea = "quizHeader"
+}
+
+function renderAnswer(answer) {
+  const answerBox = document.createElement('div')
+  answerBox.className = "answer"
+  answerBox.dataset.letter = answer.letter
+  answerBox.dataset.correct = answer.correct
+  answerBox.innerText = answer.letter + ". " + answer.answer_text
+  quizContainer.appendChild(answerBox)
+  answerBox.style.gridArea = "question"+answer.letter
+}
+
