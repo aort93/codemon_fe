@@ -6,6 +6,8 @@ let leftBorder = -0.18758;
 let monsterAdapter = adapter('http://localhost:3000/api/v1/monsters')
 let monstersFromAPI;
 let caughtCode = [];
+let monsterBoundaries = [];
+
 
 
 //Start Point of Game
@@ -35,6 +37,7 @@ let icon = L.marker(center, {
     zIndexOffset: 1500
   }).addTo(map)
 
+  // TODO: Add these circles for monsters on genereation
 let circle = new L.Circle(center, 35, {color: 'red', display: 'none'}).addTo(map);
 
 // console.log(icon._latlng.lat, icon._latlng.lng)
@@ -49,8 +52,7 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
  attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
-//Event Listener for our player movement
-//Need to refractor code!
+
 document.addEventListener("keydown", keyDownHandler);
 function keyDownHandler(e) {
   //Check to see that user only clicks arrow key
