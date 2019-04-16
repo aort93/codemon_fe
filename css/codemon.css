@@ -11,7 +11,7 @@
       "footer footer";
     height: 100vh;
   }
-  
+
   /* Give every child element its grid name */
   .welcome-header {
     grid-area: header;
@@ -22,17 +22,17 @@
     grid-area: logodiv;
     background-color: #394263;
   }
-  
+
   .sidenav {
     grid-area: sidenav;
     background-color: #394263;
   }
-  
+
   .main {
     grid-area: main;
     background-color: #8fd4d9;
   }
-  
+
   .quiz-footer {
     grid-area: footer;
     display: grid;

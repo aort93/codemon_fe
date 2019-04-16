@@ -7,6 +7,7 @@ let monsterAdapter = adapter('http://localhost:3000/api/v1/monsters')
 let monstersFromAPI;
 let caughtCode = [];
 let monsterBoundaries = [];
+const foundPokecount = 0;
 
 // DOM Variables
 let quizContainer = document.getElementById('quiz-container')
@@ -82,11 +83,15 @@ function keyDownHandler(e) {
         monstersFromAPI.forEach(monster => {
           let border = monster.monsterBorder;
           if (circle.getBounds().intersects(border.getBounds())) {
-            border.bindPopup(`${monster.name} : ${monster.phrase}`).openPopup();
+            border.bindPopup(`${monster.name} : ${monster.phrase}`).openPopup()
             setTimeout(() => {
               map.closePopup();
             }, 5500)
-            document.addEventListener('keydown', ansInput)
+            document.addEventListener('keyup', function(e){
+              if (e.keyCode === 65) {
+                catchMonster(monster)
+              }
+            })
           }
         })
 
@@ -114,11 +119,15 @@ function keyDownHandler(e) {
         monstersFromAPI.forEach(monster => {
           let border = monster.monsterBorder;
           if (circle.getBounds().intersects(border.getBounds())) {
-            border.bindPopup(`${monster.name} : ${monster.phrase}`).openPopup();
+            border.bindPopup(`${monster.name} : ${monster.phrase}`).openPopup()
             setTimeout(() => {
               map.closePopup();
             }, 5500)
-            document.addEventListener('keydown', ansInput)
+            document.addEventListener('keyup', function(e){
+              if (e.keyCode === 65) {
+                catchMonster(monster)
+              }
+            })
           }
         })
       } else {
@@ -145,11 +154,15 @@ function keyDownHandler(e) {
         monstersFromAPI.forEach(monster => {
           let border = monster.monsterBorder;
           if (circle.getBounds().intersects(border.getBounds())) {
-            border.bindPopup(`${monster.name} : ${monster.phrase}`).openPopup();
+            border.bindPopup(`${monster.name} : ${monster.phrase}`).openPopup()
             setTimeout(() => {
               map.closePopup();
             }, 5500)
-            document.addEventListener('keydown', ansInput)
+            document.addEventListener('keyup', function(e){
+              if (e.keyCode === 65) {
+                catchMonster(monster)
+              }
+            })
           }
         })
       } else {
@@ -176,11 +189,15 @@ function keyDownHandler(e) {
         monstersFromAPI.forEach(monster => {
           let border = monster.monsterBorder;
           if (circle.getBounds().intersects(border.getBounds())) {
-            border.bindPopup(`${monster.name} : ${monster.phrase}`).openPopup();
+            border.bindPopup(`${monster.name} : ${monster.phrase}`).openPopup()
             setTimeout(() => {
               map.closePopup();
-            }, 5500)
-            document.addEventListener('keydown', ansInput)
+            }, 500)
+            document.addEventListener('keyup', function(e){
+              if (e.keyCode === 65) {
+                catchMonster(monster)
+              }
+            })
           }
         })
       } else {
@@ -190,16 +207,16 @@ function keyDownHandler(e) {
   }
 }
 
-function ansInput (e) {
-  if (e.keyCode === 65) {
-    console.log('nice!')
-    if (!caughtCode.includes('codemon1')) {
-      caughtCode.push('codemon1');
-      document.getElementById('caught-poke').innerHTML += `<li>hi</li>`
-    }
-    map.removeLayer(randoCir);
-    map.removeLayer(rando);
+
+
+function catchMonster(monster) {
+  if (!caughtCode.includes(monster.name)) {
+    caughtCode.push(monster.name);
+    document.getElementById('caught-codemon').innerHTML += `<li>${monster.name}</li>`
   }
+
+  map.removeLayer(monster.monsterBorder);
+  map.removeLayer(monster.marker);
 }
 
 document.addEventListener('click', e => {
@@ -207,6 +224,7 @@ document.addEventListener('click', e => {
   console.log(monstersFromAPI[0].questions[0])
   renderQuiz(monstersFromAPI[0])
 })
+
 
 
 //function to help us find longitude and latitude on our map
