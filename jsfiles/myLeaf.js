@@ -6,6 +6,7 @@ let topBorder = 51.51175;
 let bottomBorder = 51.50245;
 let rightBorder = -0.15621;
 let leftBorder = -0.18758;
+let monsterAdapter = adapter('http://localhost:3000/api/v1/monsters')
 
 
 //Start Point of Game
@@ -113,6 +114,35 @@ map.on('draw:created', function(e) {
 
 //Event Listener for our player movement
 //Need to refractor code!
+(async () => {
+  let monstersFromAPI = await monsterAdapter.getAll();
+  // Create monsters
+  
+  // Render monsters
+  monstersFromAPI.forEach(renderMonster);
+  })();
+  
+  // Create monster icon(marker) and add to the map
+  function renderMonster(monster) {
+    // randomly generate monster location
+    let newMonsterMarker = L.marker(generateMonsterLocation()).addTo(map)
+    // randomly generate interaction border use .002 as starting distance attempt? How do I do this.... need to persist
+    // an interaction border that interferes with movement and triggers the event
+
+    // Associate marker with monster
+    monster.marker = newMonsterMarker
+
+    // Add icon from DB
+  };
+  
+  function generateMonsterLocation() {
+  // generate random gps within bounds *need numbers rather than variables for fixed* 
+  const monsterLatitude = parseFloat((Math.random() * (51.51000 - 51.50245) + 51.50245).toFixed(7));
+  const monsterLongitude = parseFloat((Math.random() * (-0.15621 + 0.18758) - 0.18758).toFixed(7));
+  const monsterLocation = [monsterLatitude, monsterLongitude];
+  return monsterLocation
+  }
+
 document.addEventListener("keydown", keyDownHandler);
 function keyDownHandler(e) {
   //Check to see that user only clicks arrow key
@@ -240,3 +270,19 @@ function ansInput (e) {
 //   alert("You clicked the map at " + e.latlng);
 // }
 // map.on('click', onMapClick);
+function onMapClick(e) {
+  alert("You clicked the map at " + e.latlng);
+}
+map.on('click', onMapClick);
+
+
+
+var latlngs = [
+  [51.50803, -0.16849],
+  [51.50805, -0.16785],
+  [51.50762, -0.16829],
+  [51.50803, -0.16849]
+];
+var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
+// zoom the map to the polyline
+map.fitBounds(polyline.getBounds());
