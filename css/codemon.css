@@ -25,13 +25,27 @@
 
   .sidenav {
     grid-area: sidenav;
-    background-color: #394263;
+    display: grid;
+    grid-template-columns: 0.2fr 0.4fr 0.5fr;
+    grid-template-rows: 1/7fr 1/7fr 1/7fr 1/7fr 1/7fr 1/7fr;
+    grid-template-areas:
+      "codemonBelt codemonBelt codemonBelt"
+      "codemon1Num codemon1Img codemon1Name"
+      "codemon2Num codemon2Img codemon2Name"
+      "codemon3Num codemon3Img codemon3Name"
+      "codemon4Num codemon4Img codemon4Name"
+      "codemon5Num codemon5Img codemon5Name"
+      "codemon6Num codemon6Img codemon6Name";
+    height: 100%;
+    background-color: #8eacc0;
   }
 
   .main {
     grid-area: main;
     background-color: #8fd4d9;
   }
+
+
 
   .quiz-footer {
     grid-area: footer;
@@ -44,4 +58,16 @@
       "questionC questionD";
     height: 100%;
     background-color: #648ca6;
+  }
+
+  .caught-num {
+
+  }
+
+  .caught-img {
+    width: 100%;
+  }
+
+  .caught-name {
+    
   }
