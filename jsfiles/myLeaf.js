@@ -224,15 +224,19 @@ function renderQuiz(monster) {
 function renderQuestion(monster) {
   const questionBox = document.createElement('div')
   // TODO: refactor to pull random question from this monsters question list after mvp
+  questionBox.className = "question"
   questionBox.innerText = monster.questions[0].question_text
   quizContainer.appendChild(questionBox)
+  questionBox.style.gridArea = "quizHeader"
 }
 
 function renderAnswer(answer) {
   const answerBox = document.createElement('div')
+  answerBox.className = "answer"
   answerBox.dataset.letter = answer.letter
   answerBox.dataset.correct = answer.correct
   answerBox.innerText = answer.letter + ". " + answer.answer_text
   quizContainer.appendChild(answerBox)
+  answerBox.style.gridArea = "question"+answer.letter
 }
 
