@@ -104,7 +104,20 @@ function keyDownHandler(e) {
         })
 
       } else {
-          alert(warning);
+        newIcon = L.marker(center, {
+          autoPan: true,
+          autoPanSpeed: 10,
+          icon: myIcon,
+          zIndexOffset: 1000
+        }).addTo(map)
+        icon = newIcon;
+        newCircle = new L.Circle(center, 35, {color: 'red', opacity: 0.001}).addTo(map)
+        circle = newCircle;
+        map.panTo(icon.getLatLng());
+          newIcon.bindPopup(warning).openPopup();
+          setTimeout( () => {
+            map.closePopup()
+          }, 2000)
       }
     }
 
@@ -146,7 +159,20 @@ function keyDownHandler(e) {
           }
         })
       } else {
-      alert(warning);
+        newIcon = L.marker(center, {
+          autoPan: true,
+          autoPanSpeed: 10,
+          icon: myIcon,
+          zIndexOffset: 1000
+        }).addTo(map)
+        icon = newIcon;
+        newCircle = new L.Circle(center, 35, {color: 'red', opacity: 0.001}).addTo(map)
+        circle = newCircle;
+        map.panTo(icon.getLatLng());
+          newIcon.bindPopup(warning).openPopup();
+          setTimeout( () => {
+            map.closePopup()
+          }, 2000)
       }
     }
 
@@ -188,7 +214,20 @@ function keyDownHandler(e) {
           }
         })
       } else {
-        alert(warning);
+        newIcon = L.marker(center, {
+          autoPan: true,
+          autoPanSpeed: 10,
+          icon: myIcon,
+          zIndexOffset: 1000
+        }).addTo(map)
+        icon = newIcon;
+        newCircle = new L.Circle(center, 35, {color: 'red', opacity: 0.001}).addTo(map)
+        circle = newCircle;
+        map.panTo(icon.getLatLng());
+          newIcon.bindPopup(warning).openPopup();
+          setTimeout( () => {
+            map.closePopup()
+          }, 2000)
       }
     }
 
@@ -230,7 +269,20 @@ function keyDownHandler(e) {
           }
         })
       } else {
-      alert(warning);
+        newIcon = L.marker(center, {
+          autoPan: true,
+          autoPanSpeed: 10,
+          icon: myIcon,
+          zIndexOffset: 1000
+        }).addTo(map)
+        icon = newIcon;
+        newCircle = new L.Circle(center, 35, {color: 'red', opacity: 0.001}).addTo(map)
+        circle = newCircle;
+        map.panTo(icon.getLatLng());
+          newIcon.bindPopup(warning).openPopup();
+          setTimeout( () => {
+            map.closePopup()
+          }, 2000)
       }
     }
   }
@@ -325,4 +377,3 @@ function renderAnswer(answer) {
   quizContainer.appendChild(answerBox)
   answerBox.style.gridArea = "question"+answer.letter
 }
-
