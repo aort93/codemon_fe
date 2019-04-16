@@ -1,17 +1,50 @@
+const url = 'http://localhost:3000/api/v1/monsters'
+const codemonAdapter = adapter('url')
+
+
+
+//Map Border Values
 let topBorder = 51.51175;
 let bottomBorder = 51.50245;
 let rightBorder = -0.15621;
 let leftBorder = -0.18758;
 
 
+//Start Point of Game
+let latitude = 51.50789;
+let longitude = -0.16825;
+let center = [latitude, longitude];
+let map = L.map('map', {drawControl: false}).setView(center, 18);
+
+//Global values for our player icon movement event listeners
+let horizontal = 0;
+let vertical = 0;
+let keyCodes = [37, 38, 39, 40]
+let warning = 'No capturing of codemon! Codemon catching is only allowed in this park!';
+
+//Player Icon and Attributes
+let myIcon = L.icon({
+    iconUrl: './img/littleman.gif',
+    iconSize: [80, 80]
+  });
+
+let icon = L.marker(center, {
+    autoPan: true,
+    autoPanSpeed: 10,
+    icon: myIcon,
+    zIndexOffset: 1000
+  }).addTo(map)
+
+let circle = new L.Circle(center, 35, {color: 'red', display: 'none'}).addTo(map);
+
+// console.log(icon._latlng.lat, icon._latlng.lng)
+
+//Code for Generating Our Random Pokemon
+let rando  = L.marker([51.50794, -0.15829]).addTo(map);
+let randoCir = new L.Circle([51.50794, -0.15829], 35, {color: 'red', opacity: 0.001}).addTo(map)
 
 
-var latitude = 51.50789;
-var longitude = -0.16825;
-var center = [latitude, longitude];
-var map = L.map('map', {drawControl: false}).setView(center, 18);
-
-
+//Building our Map
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
  attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
@@ -53,15 +86,15 @@ var options = {
 };
 
 // Initialise the draw control and pass it the FeatureGroup of editable layers
-var drawControl = new L.Control.Draw(options);
+let drawControl = new L.Control.Draw(options);
 
-var newImg = map.addControl(drawControl);
+let newImg = map.addControl(drawControl);
 
-var editableLayers = new L.FeatureGroup();
+let editableLayers = new L.FeatureGroup();
 map.addLayer(editableLayers);
 
 map.on('draw:created', function(e) {
-  var type = e.layerType,
+  let type = e.layerType,
     layer = e.layer;
 
   if (type === 'polyline') {
@@ -79,61 +112,108 @@ map.on('draw:created', function(e) {
   editableLayers.addLayer(layer);
 });
 
-var cen = L.marker(center).addTo(map);
-// console.log(cen._latlng.lat, cen._latlng.lng)
 
+//Event Listener for our player movement
+//Need to refractor code!
 document.addEventListener("keydown", keyDownHandler);
-
-let horizontal = 0;
-let vertical = 0;
-let keyCodes = [37, 38, 39, 40]
-let warning = 'No capturing of codemon! Codemon catching is only allowed in this park!';
-
 function keyDownHandler(e) {
-  ////refactor code later
+  //Check to see that user only clicks arrow key
   if (keyCodes.includes(e.keyCode)) {
-  map.removeLayer(cen);
-  let newMarker;
-
+  map.removeLayer(icon);
+  map.removeLayer(circle);
+  let newIcon;
+  let newCircle;
+    //right arrow logic
     if(e.keyCode === 39) {
-      if (rightBorder - 0.00006 >= cen._latlng.lng) {
-        horizontal += 0.00005;
+      if (rightBorder - 0.0006 >= icon._latlng.lng) {
+        horizontal += 0.0005;
         center = [latitude + vertical, longitude + horizontal];
-        newMarker = L.marker(center).addTo(map);
-        cen = newMarker;
+        newIcon = L.marker(center, {
+          autoPan: true,
+          autoPanSpeed: 10,
+          icon: myIcon,
+          zIndexOffset: 1000
+        }).addTo(map)
+        icon = newIcon;
+        newCircle = new L.Circle(center, 35, {color: 'red', opacity: 0.001}).addTo(map)
+        circle = newCircle;
+        if (circle.getBounds().intersects(randoCir.getBounds())) {
+          console.log('caught the random pokemon!!!')
+          map.removeLayer(randoCir);
+          map.removeLayer(rando);
+        }
       } else {
           alert(warning);
       }
     }
 
+    //left arrow logic
     if(e.keyCode == 37) {
-      if (leftBorder + 0.00006 <= cen._latlng.lng) {
-      horizontal -= 0.00005
-      center = [latitude + vertical, longitude + horizontal];
-      newMarker = L.marker(center).addTo(map);
-      cen = newMarker;
-      }else {
+      if (leftBorder + 0.0006 <= icon._latlng.lng) {
+        horizontal -= 0.0005
+        center = [latitude + vertical, longitude + horizontal];
+        newIcon = L.marker(center, {
+          autoPan: true,
+          autoPanSpeed: 10,
+          icon: myIcon,
+          zIndexOffset: 1000
+        }).addTo(map)
+        icon = newIcon;
+        newCircle = new L.Circle(center, 35, {color: 'red', opacity: 0.001}).addTo(map)
+        circle = newCircle;
+        if (circle.getBounds().intersects(randoCir.getBounds())) {
+          console.log('caught the random pokemon!!!')
+          map.removeLayer(randoCir);
+          map.removeLayer(rando);
+        }
+      } else {
       alert(warning);
       }
     }
 
+    //Up arrow key logic
     if(e.keyCode == 38) {
-      if (topBorder - 0.00006 >= cen._latlng.lat) {
-      vertical += 0.00005
-      center = [latitude + vertical, longitude + horizontal];
-      newMarker = L.marker(center).addTo(map);
-      cen = newMarker;
-      }else {
+      if (topBorder - 0.0006 >= icon._latlng.lat) {
+        vertical += 0.0005;
+        center = [latitude + vertical, longitude + horizontal];
+        newIcon = L.marker(center, {
+          autoPan: true,
+          autoPanSpeed: 10,
+          icon: myIcon,
+          zIndexOffset: 1000
+        }).addTo(map)
+        icon = newIcon;
+        newCircle = new L.Circle(center, 35, {color: 'red', opacity: 0.001}).addTo(map)
+        circle = newCircle;
+        if (circle.getBounds().intersects(randoCir.getBounds())) {
+          console.log('caught the random pokemon!!!')
+          map.removeLayer(randoCir);
+          map.removeLayer(rando);
+        }
+      } else {
         alert(warning);
       }
     }
 
+    //Down Arrow Key logic
     if(e.keyCode == 40) {
-      if (bottomBorder + 0.00006 <= cen._latlng.lat) {
-      vertical -= 0.00005
-      center = [latitude + vertical, longitude + horizontal];
-      newMarker = L.marker(center).addTo(map);
-      cen = newMarker;
+      if (bottomBorder + 0.0006 <= icon._latlng.lat) {
+        vertical -= 0.0005
+        center = [latitude + vertical, longitude + horizontal];
+        newIcon = L.marker(center, {
+          autoPan: true,
+          autoPanSpeed: 10,
+          icon: myIcon,
+          zIndexOffset: 1000
+        }).addTo(map)
+        icon = newIcon;
+        newCircle = new L.Circle(center, 35, {color: 'red', opacity: 0.001}).addTo(map)
+        circle = newCircle;
+        if (circle.getBounds().intersects(randoCir.getBounds())) {
+          console.log('caught the random pokemon!!!')
+          map.removeLayer(randoCir);
+          map.removeLayer(rando);
+        }
       } else {
       alert(warning);
       }
@@ -141,19 +221,12 @@ function keyDownHandler(e) {
   }
 }
 
+
+
+
+
+//function to help us find longitude and latitude on our map
 // function onMapClick(e) {
 //   alert("You clicked the map at " + e.latlng);
 // }
 // map.on('click', onMapClick);
-
-
-
-var latlngs = [
-  [51.50803, -0.16849],
-  [51.50805, -0.16785],
-  [51.50762, -0.16829],
-  [51.50803, -0.16849]
-];
-var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
-// zoom the map to the polyline
-map.fitBounds(polyline.getBounds());
