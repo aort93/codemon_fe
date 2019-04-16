@@ -14,11 +14,11 @@ var MonsterIcon = L.Icon.extend({
 (async () => {
     monstersFromAPI = await monsterAdapter.getAll();
     // Create monsters
-  
+
     // Render monsters
     monstersFromAPI.forEach(renderMonster);
     })();
-  
+
 
 
     // Create monster icon(marker) and add to the map
@@ -30,12 +30,11 @@ var MonsterIcon = L.Icon.extend({
       const monsterBoundary = new L.Circle(monsterLocation, 75, {color: 'red', opacity: 0.001}).addTo(map)
       monsterBoundaries.push(monsterBoundary)
       monster.monsterBorder = monsterBoundary
-      console.log(monster.image)
+      // console.log(monster.image)
       const monsterIcon = new MonsterIcon({iconUrl: monster.image});
-      console.log(monsterIcon)
+      // console.log(monsterIcon)
       const newMonsterMarker = L.marker(monsterLocation, {icon: monsterIcon}).addTo(map).bindPopup(monster.name + ": " + monster.phrase)
-      
-      monster.marker = newMonsterMarker
-  
-    };
 
+      monster.marker = newMonsterMarker
+
+    };
