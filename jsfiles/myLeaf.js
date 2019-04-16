@@ -1,6 +1,3 @@
-const codemonAdapter = adapter('http://localhost:3000/api/v1/monsters')
-
-let caughtPoke = [];
 //Map Border Values
 let topBorder = 51.51175;
 let bottomBorder = 51.50245;
@@ -8,14 +5,18 @@ let rightBorder = -0.15621;
 let leftBorder = -0.18758;
 let monsterAdapter = adapter('http://localhost:3000/api/v1/monsters')
 let monstersFromAPI;
+let caughtCode = [];
 let monsterBoundaries = [];
+
 
 
 //Start Point of Game
 let latitude = 51.50789;
 let longitude = -0.16825;
 let center = [latitude, longitude];
-let map = L.map('map', {drawControl: false}).setView(center, 15);
+let map = L.map('map', {drawControl: false, zoomControl: false}).setView(center, 17);
+map.scrollWheelZoom.disable()
+map.keyboard.disable();
 
 //Global values for our player icon movement event listeners
 let horizontal = 0;
@@ -33,7 +34,7 @@ let icon = L.marker(center, {
     autoPan: true,
     autoPanSpeed: 10,
     icon: myIcon,
-    zIndexOffset: 1000
+    zIndexOffset: 1500
   }).addTo(map)
 
   // TODO: Add these circles for monsters on genereation
@@ -50,71 +51,6 @@ let randoCir = new L.Circle([51.50794, -0.15829], 35, {color: 'red', opacity: 0.
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
  attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
-
-var editableLayers = new L.FeatureGroup();
-map.addLayer(editableLayers);
-
-var options = {
-  position: 'topright',
-  draw: {
-    polygon: {
-      allowIntersection: false, // Restricts shapes to simple polygons
-      drawError: {
-        color: '#e1e100', // Color the shape will turn when intersects
-        message: '<strong>Oh snap!<strong> you can\'t draw that!' // Message that will show when intersect
-      },
-      shapeOptions: {
-        color: '#97009c'
-      }
-    },
-    polyline: {
-    	shapeOptions: {
-        color: '#f357a1',
-        weight: 10
-          }
-    },
-    // disable toolbar item by setting it to false
-    polyline: false,
-    circle: true, // Turns off this drawing tool
-    polygon: true,
-    marker: true,
-    rectangle: true,
-  },
-  edit: {
-    featureGroup: editableLayers,
-    edit: true,
-    remove: true
-  }
-};
-
-// Initialise the draw control and pass it the FeatureGroup of editable layers
-let drawControl = new L.Control.Draw(options);
-
-let newImg = map.addControl(drawControl);
-
-var editableLayers = new L.FeatureGroup();
-map.addLayer(editableLayers);
-
-map.on('draw:created', function(e) {
-  let type = e.layerType,
-    layer = e.layer;
-
-  if (type === 'polyline') {
-    layer.bindPopup('A polyline!');
-  } else if ( type === 'polygon') {
-  	layer.bindPopup('A polygon!');
-  } else if (type === 'marker')
-  {layer.bindPopup('marker!');}
-  else if (type === 'circle')
-  {layer.bindPopup('A circle!');}
-   else if (type === 'rectangle')
-  {layer.bindPopup('A rectangle!');}
-
-
-  editableLayers.addLayer(layer);
-});
-
-
 
 
 document.addEventListener("keydown", keyDownHandler);
@@ -139,13 +75,19 @@ function keyDownHandler(e) {
         icon = newIcon;
         newCircle = new L.Circle(center, 35, {color: 'red', opacity: 0.001}).addTo(map)
         circle = newCircle;
-        if (circle.getBounds().intersects(randoCir.getBounds())) {
-          rando.bindPopup('It is time to battle! RAWRRR!').openPopup();
-          setTimeout(() => {
-            map.closePopup();
-          }, 5500)
-          document.addEventListener('keydown', ansInput)
-        }
+        map.panTo(icon.getLatLng());
+
+        monstersFromAPI.forEach(monster => {
+          let border = monster.monsterBorder;
+          if (circle.getBounds().intersects(border.getBounds())) {
+            border.bindPopup(`${monster.name} : ${monster.phrase}`).openPopup();
+            setTimeout(() => {
+              map.closePopup();
+            }, 5500)
+            document.addEventListener('keydown', ansInput)
+          }
+        })
+
       } else {
           alert(warning);
       }
@@ -165,11 +107,18 @@ function keyDownHandler(e) {
         icon = newIcon;
         newCircle = new L.Circle(center, 35, {color: 'red', opacity: 0.001}).addTo(map)
         circle = newCircle;
-        if (circle.getBounds().intersects(randoCir.getBounds())) {
-          console.log('caught the random pokemon!!!')
-          map.removeLayer(randoCir);
-          map.removeLayer(rando);
-        }
+        map.panTo(icon.getLatLng());
+
+        monstersFromAPI.forEach(monster => {
+          let border = monster.monsterBorder;
+          if (circle.getBounds().intersects(border.getBounds())) {
+            border.bindPopup(`${monster.name} : ${monster.phrase}`).openPopup();
+            setTimeout(() => {
+              map.closePopup();
+            }, 5500)
+            document.addEventListener('keydown', ansInput)
+          }
+        })
       } else {
       alert(warning);
       }
@@ -189,11 +138,18 @@ function keyDownHandler(e) {
         icon = newIcon;
         newCircle = new L.Circle(center, 35, {color: 'red', opacity: 0.001}).addTo(map)
         circle = newCircle;
-        if (circle.getBounds().intersects(randoCir.getBounds())) {
-          console.log('caught the random pokemon!!!')
-          map.removeLayer(randoCir);
-          map.removeLayer(rando);
-        }
+        map.panTo(icon.getLatLng());
+
+        monstersFromAPI.forEach(monster => {
+          let border = monster.monsterBorder;
+          if (circle.getBounds().intersects(border.getBounds())) {
+            border.bindPopup(`${monster.name} : ${monster.phrase}`).openPopup();
+            setTimeout(() => {
+              map.closePopup();
+            }, 5500)
+            document.addEventListener('keydown', ansInput)
+          }
+        })
       } else {
         alert(warning);
       }
@@ -213,11 +169,18 @@ function keyDownHandler(e) {
         icon = newIcon;
         newCircle = new L.Circle(center, 35, {color: 'red', opacity: 0.001}).addTo(map)
         circle = newCircle;
-        if (circle.getBounds().intersects(randoCir.getBounds())) {
-          console.log('caught the random pokemon!!!')
-          map.removeLayer(randoCir);
-          map.removeLayer(rando);
-        }
+        map.panTo(icon.getLatLng());
+
+        monstersFromAPI.forEach(monster => {
+          let border = monster.monsterBorder;
+          if (circle.getBounds().intersects(border.getBounds())) {
+            border.bindPopup(`${monster.name} : ${monster.phrase}`).openPopup();
+            setTimeout(() => {
+              map.closePopup();
+            }, 5500)
+            document.addEventListener('keydown', ansInput)
+          }
+        })
       } else {
       alert(warning);
       }
@@ -228,12 +191,15 @@ function keyDownHandler(e) {
 function ansInput (e) {
   if (e.keyCode === 65) {
     console.log('nice!')
-    caughtPoke.push('codemon1');
+    if (!caughtCode.includes('codemon1')) {
+      caughtCode.push('codemon1');
+      document.getElementById('caught-poke').innerHTML += `<li>hi</li>`
+    }
     map.removeLayer(randoCir);
     map.removeLayer(rando);
-    return true;
   }
 }
+
 
 //function to help us find longitude and latitude on our map
 // function onMapClick(e) {
