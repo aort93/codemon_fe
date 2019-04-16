@@ -86,10 +86,16 @@ function keyDownHandler(e) {
             border.bindPopup(`${monster.name} : ${monster.phrase}`).openPopup()
             setTimeout(() => {
               map.closePopup();
-            }, 5500)
-            document.addEventListener('keyup', function(e){
-              if (e.keyCode === 65) {
+            }, 500)
+            renderBattle(monster)
+            alert(`Now's my chance to catch ${monster.name}!`)
+            quizContainer.addEventListener('click', function(e){
+              if (e.target.dataset.correct === "true") {
+                alert(`I caught ${monster.name}!`)
                 catchMonster(monster)
+              } else {
+                alert(`${monster.name} ran away!`)
+                monsterFled(monster)
               }
             })
           }
@@ -122,10 +128,16 @@ function keyDownHandler(e) {
             border.bindPopup(`${monster.name} : ${monster.phrase}`).openPopup()
             setTimeout(() => {
               map.closePopup();
-            }, 5500)
-            document.addEventListener('keyup', function(e){
-              if (e.keyCode === 65) {
+            }, 500)
+            renderBattle(monster)
+            alert(`Now's my chance to catch ${monster.name}!`)
+            quizContainer.addEventListener('click', function(e){
+              if (e.target.dataset.correct === "true") {
+                alert(`I caught ${monster.name}!`)
                 catchMonster(monster)
+              } else {
+                alert(`${monster.name} ran away!`)
+                monsterFled(monster)
               }
             })
           }
@@ -157,10 +169,16 @@ function keyDownHandler(e) {
             border.bindPopup(`${monster.name} : ${monster.phrase}`).openPopup()
             setTimeout(() => {
               map.closePopup();
-            }, 5500)
-            document.addEventListener('keyup', function(e){
-              if (e.keyCode === 65) {
+            }, 500)
+            renderBattle(monster)
+            alert(`Now's my chance to catch ${monster.name}!`)
+            quizContainer.addEventListener('click', function(e){
+              if (e.target.dataset.correct === "true") {
+                alert(`I caught ${monster.name}!`)
                 catchMonster(monster)
+              } else {
+                alert(`${monster.name} ran away!`)
+                monsterFled(monster)
               }
             })
           }
@@ -193,9 +211,15 @@ function keyDownHandler(e) {
             setTimeout(() => {
               map.closePopup();
             }, 500)
-            document.addEventListener('keyup', function(e){
-              if (e.keyCode === 65) {
+            renderBattle(monster)
+            alert(`Now's my chance to catch ${monster.name}!`)
+            quizContainer.addEventListener('click', function(e){
+              if (e.target.dataset.correct === "true") {
+                alert(`I caught ${monster.name}!`)
                 catchMonster(monster)
+              } else {
+                alert(`${monster.name} ran away!`)
+                monsterFled(monster)
               }
             })
           }
@@ -207,7 +231,10 @@ function keyDownHandler(e) {
   }
 }
 
-
+function monsterFled(monster) {
+  map.removeLayer(monster.monsterBorder);
+  map.removeLayer(monster.marker);
+}
 
 function catchMonster(monster) {
   if (!caughtCode.includes(monster.name)) {
@@ -219,12 +246,6 @@ function catchMonster(monster) {
   map.removeLayer(monster.marker);
 }
 
-document.addEventListener('click', e => {
-  console.log(monstersFromAPI[0])
-  console.log(monstersFromAPI[0].questions[0])
-  renderQuiz(monstersFromAPI[0])
-})
-
 
 
 //function to help us find longitude and latitude on our map
@@ -234,7 +255,8 @@ document.addEventListener('click', e => {
 // map.on('click', onMapClick);
 
 // *****************Code for Quiz***************************** Refactor out interaction logic, quiz logic etc.
-function renderQuiz(monster) {
+function renderBattle(monster) {
+  // extend this to render the battle scene, pause other activity, render question, etc.
   renderQuestion(monster)
   monster.answers.forEach(renderAnswer)
 }
