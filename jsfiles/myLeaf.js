@@ -44,13 +44,6 @@ let icon = L.marker(center, {
   // TODO: Add these circles for monsters on genereation
 let circle = new L.Circle(center, 35, {color: 'red', display: 'none'}).addTo(map);
 
-// console.log(icon._latlng.lat, icon._latlng.lng)
-
-//Code for Generating Our Random Pokemon
-let rando  = L.marker([51.50794, -0.15829]).addTo(map);
-let randoCir = new L.Circle([51.50794, -0.15829], 35, {color: 'red', opacity: 0.001}).addTo(map)
-
-
 //Building our Map
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
  attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
