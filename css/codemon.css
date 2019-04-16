@@ -35,5 +35,13 @@
   
   .quiz-footer {
     grid-area: footer;
+    display: grid;
+    grid-template-columns: 0.5fr 0.5fr;
+    grid-template-rows: .20fr .40fr .40fr;
+    grid-template-areas:
+      "quizHeader quizHeader"
+      "questionA questionB" 
+      "questionC questionD";
+    height: 100%;
     background-color: #648ca6;
   }
