@@ -8,6 +8,8 @@ let monstersFromAPI;
 let caughtCode = [];
 let monsterBoundaries = [];
 
+// DOM Variables
+let quizContainer = document.getElementById('quiz-container')
 
 
 //Start Point of Game
@@ -200,9 +202,37 @@ function ansInput (e) {
   }
 }
 
+document.addEventListener('click', e => {
+  console.log(monstersFromAPI[0])
+  console.log(monstersFromAPI[0].questions[0])
+  renderQuiz(monstersFromAPI[0])
+})
+
 
 //function to help us find longitude and latitude on our map
 // function onMapClick(e) {
 //   alert("You clicked the map at " + e.latlng);
 // }
 // map.on('click', onMapClick);
+
+// *****************Code for Quiz***************************** Refactor out interaction logic, quiz logic etc.
+function renderQuiz(monster) {
+  renderQuestion(monster)
+  monster.answers.forEach(renderAnswer)
+}
+
+function renderQuestion(monster) {
+  const questionBox = document.createElement('div')
+  // TODO: refactor to pull random question from this monsters question list after mvp
+  questionBox.innerText = monster.questions[0].question_text
+  quizContainer.appendChild(questionBox)
+}
+
+function renderAnswer(answer) {
+  const answerBox = document.createElement('div')
+  answerBox.dataset.letter = answer.letter
+  answerBox.dataset.correct = answer.correct
+  answerBox.innerText = answer.letter + ". " + answer.answer_text
+  quizContainer.appendChild(answerBox)
+}
+
