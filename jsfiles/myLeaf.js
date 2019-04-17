@@ -174,6 +174,7 @@ function renderAnswer(answer) {
 
 function renderBattle(monster) {
   // extend this to render the battle scene, pause other activity, render question, etc.
+  clearQuiz()
   quizContainer.dataset.monstername = monster.name
   renderQuestion(monster)
   monster.answers.forEach(renderAnswer)
