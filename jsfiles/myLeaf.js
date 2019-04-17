@@ -4,10 +4,14 @@ let bottomBorder = 51.50245;
 let rightBorder = -0.15621;
 let leftBorder = -0.18758;
 let monsterAdapter = adapter('http://localhost:3000/api/v1/monsters')
-let monstersFromAPI;
+let monstersFromAPI = [];
+let wildMonsters = [];
+let caughtMonsters = [];
+
 let caughtCode = [];
 let monsterBoundaries = [];
 const foundPokecount = 0;
+let intersection = false;
 
 // DOM Variables
 let quizContainer = document.getElementById('quiz-container')
@@ -80,29 +84,7 @@ function keyDownHandler(e) {
         newCircle = new L.Circle(center, 35, {color: 'red', opacity: 0.001}).addTo(map)
         circle = newCircle;
         map.panTo(icon.getLatLng());
-
-        monstersFromAPI.forEach(monster => {
-          let border = monster.monsterBorder;
-          if (circle.getBounds().intersects(border.getBounds())) {
-            border.bindPopup(`${monster.name} : ${monster.phrase}`).openPopup()
-            setTimeout(() => {
-              map.closePopup();
-            }, 500)
-            renderBattle(monster)
-            alert(`Now's my chance to catch ${monster.name}!`)
-            quizContainer.addEventListener('click', function(e){
-              if (e.target.dataset.correct === "true") {
-                alert(`I caught ${monster.name}!`)
-                catchMonster(monster)
-              } else {
-                alert(`${monster.name} ran away!`)
-                monsterFled(monster)
-              }
-              clearQuiz()
-            })
-          }
-        })
-
+        initiateQuiz(checkIntersection())
       } else {
         newIcon = L.marker(center, {
           autoPan: true,
@@ -136,28 +118,7 @@ function keyDownHandler(e) {
         newCircle = new L.Circle(center, 35, {color: 'red', opacity: 0.001}).addTo(map)
         circle = newCircle;
         map.panTo(icon.getLatLng());
-
-        monstersFromAPI.forEach(monster => {
-          let border = monster.monsterBorder;
-          if (circle.getBounds().intersects(border.getBounds())) {
-            border.bindPopup(`${monster.name} : ${monster.phrase}`).openPopup()
-            setTimeout(() => {
-              map.closePopup();
-            }, 500)
-            renderBattle(monster)
-            alert(`Now's my chance to catch ${monster.name}!`)
-            quizContainer.addEventListener('click', function(e){
-              if (e.target.dataset.correct === "true") {
-                alert(`I caught ${monster.name}!`)
-                catchMonster(monster)
-              } else {
-                alert(`${monster.name} ran away!`)
-                monsterFled(monster)
-              }
-              clearQuiz()
-            })
-          }
-        })
+        initiateQuiz(checkIntersection())
       } else {
         newIcon = L.marker(center, {
           autoPan: true,
@@ -191,28 +152,7 @@ function keyDownHandler(e) {
         newCircle = new L.Circle(center, 35, {color: 'red', opacity: 0.001}).addTo(map)
         circle = newCircle;
         map.panTo(icon.getLatLng());
-
-        monstersFromAPI.forEach(monster => {
-          let border = monster.monsterBorder;
-          if (circle.getBounds().intersects(border.getBounds())) {
-            border.bindPopup(`${monster.name} : ${monster.phrase}`).openPopup()
-            setTimeout(() => {
-              map.closePopup();
-            }, 500)
-            renderBattle(monster)
-            alert(`Now's my chance to catch ${monster.name}!`)
-            quizContainer.addEventListener('click', function(e){
-              if (e.target.dataset.correct === "true") {
-                alert(`I caught ${monster.name}!`)
-                catchMonster(monster)
-              } else {
-                alert(`${monster.name} ran away!`)
-                monsterFled(monster)
-              }
-              clearQuiz()
-            })
-          }
-        })
+        initiateQuiz(checkIntersection())
       } else {
         newIcon = L.marker(center, {
           autoPan: true,
@@ -246,28 +186,9 @@ function keyDownHandler(e) {
         newCircle = new L.Circle(center, 35, {color: 'red', opacity: 0.001}).addTo(map)
         circle = newCircle;
         map.panTo(icon.getLatLng());
-
-        monstersFromAPI.forEach(monster => {
-          let border = monster.monsterBorder;
-          if (circle.getBounds().intersects(border.getBounds())) {
-            border.bindPopup(`${monster.name} : ${monster.phrase}`).openPopup()
-            setTimeout(() => {
-              map.closePopup();
-            }, 500)
-            renderBattle(monster)
-            alert(`Now's my chance to catch ${monster.name}!`)
-            quizContainer.addEventListener('click', function(e){
-              if (e.target.dataset.correct === "true") {
-                alert(`I caught ${monster.name}!`)
-                catchMonster(monster)
-              } else {
-                alert(`${monster.name} ran away!`)
-                monsterFled(monster)
-              }
-              clearQuiz()
-            })
-          }
-        })
+        // check for monster intersection
+        initiateQuiz(checkIntersection())
+        // if hits border
       } else {
         newIcon = L.marker(center, {
           autoPan: true,
@@ -288,6 +209,58 @@ function keyDownHandler(e) {
   }
 }
 
+function checkIntersection() {
+  let foundMonster = wildMonsters.find(monster => {
+    console.log(monster.monsterBorder.getBounds().intersects(circle.getBounds()))
+    return monster.monsterBorder.getBounds().intersects(circle.getBounds())
+  }
+  )  
+  return foundMonster
+}
+
+  function initiateQuiz(monster) {
+    if (monster) {
+        // initiatePopup(monster)
+        renderBattle(monster)
+    }
+  }
+
+// checkforintersect() = check for intersection between player boundary and existing codemon boundaries
+    // if there is no intersection, do nothing
+    // if there is an an intersection, initiate a quiz
+
+// initiateQuiz(monster)
+//    start a while loop while answerSelected = false
+//    when click, set answerSelected to true
+//    popupFunctionlaity()
+//    pull the monster properties for the quiz and create dom elements
+//    render the dom elements
+//    add event listener for click
+      // quizcatchOrFlee()
+//    set anserS to true on click
+
+// interactionPopup()
+
+// CatchorFlee()
+// if click target dataset correct === true
+// catchMonster()
+// else 
+// fleeMonster()
+
+// catchMonster()
+  // renderCaughtMonster
+  // clearMonster
+
+// fleeMonster()
+  // clearMonster
+
+// clearMonster()
+//    remove the monster boundary layer from the map
+//    remove the monster from the wild monsters we are checking against
+
+
+
+
 function clearQuiz() {
   quizContainer.innerHTML = ""
 }
@@ -295,20 +268,26 @@ function clearQuiz() {
 function monsterFled(monster) {
   map.removeLayer(monster.monsterBorder);
   map.removeLayer(monster.marker);
+  monster.monsterBorder = null
+  console.log(monster, 'set to null')
+  wildMonsters.splice(wildMonsters.indexOf(monster),1)
+  console.log(wildMonsters)
+  clearQuiz()
 }
 
 // TODO: Update to grid, populate grid with images and monster names
 function catchMonster(monster) {
-  if (!caughtCode.includes(monster.name)) {
-    caughtCode.push(monster.name);
-    monster.caughtOrder = caughtCode.indexOf(monster.name) + 1
-    console.log(monster)
-    console.log(monster.caughtOrder)
-    renderCodemonBelt(monster)
-  }
-
+  ++caughtCode
+  monster.caughtOrder = caughtCode
+  caughtMonsters.push(monster)
+  renderCodemonBelt(monster)
   map.removeLayer(monster.monsterBorder);
   map.removeLayer(monster.marker);
+  monster.monsterBorder = null
+  console.log(monster, 'set to null')
+  wildMonsters.splice(wildMonsters.indexOf(monster),1)
+  console.log(wildMonsters)
+  clearQuiz()
 }
 
 
@@ -328,7 +307,7 @@ function renderCodemonBelt(monster) {
 
 function renderNumber(monster) {
   const caughtNum = document.createElement('div')
-  caughtNum.innerText = 1
+  caughtNum.innerText = monster.caughtOrder
   caughtNum.className = "caught-num"
   codemonBelt.appendChild(caughtNum)
   caughtNum.style.gridArea = "codemon" + monster.caughtOrder + "Num"
@@ -352,11 +331,25 @@ function renderCaughtCodemonName(monster) {
   caughtName.style.gridArea = "codemon" + monster.caughtOrder + "Name"
 }
 
+quizContainer.addEventListener('click', function(e){
+  if (e.target.dataset.correct === "true") {
+    const selectedMonster = wildMonsters.find(monster => monster.name === e.target.parentNode.dataset.monstername)
+    console.log(`I caught ${selectedMonster.name}!`)
+    catchMonster(selectedMonster)
+  } else {
+    const selectedMonster = wildMonsters.find(monster => monster.name === e.target.parentNode.dataset.monstername)
+    console.log(`${selectedMonster.name} ran away!`)
+    monsterFled(selectedMonster)
+  }
+})
 
 function renderBattle(monster) {
   // extend this to render the battle scene, pause other activity, render question, etc.
+  console.log(monster)
+  quizContainer.dataset.monstername = monster.name
   renderQuestion(monster)
   monster.answers.forEach(renderAnswer)
+  console.log("in the battle!")
 }
 
 function renderQuestion(monster) {
@@ -373,7 +366,11 @@ function renderAnswer(answer) {
   answerBox.className = "answer"
   answerBox.dataset.letter = answer.letter
   answerBox.dataset.correct = answer.correct
+  console.log(answer)
+  
   answerBox.innerText = answer.letter + ". " + answer.answer_text
   quizContainer.appendChild(answerBox)
+  console.log("I clicked", answerBox.parentNode)
   answerBox.style.gridArea = "question"+answer.letter
 }
+

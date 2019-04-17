@@ -14,7 +14,8 @@ var MonsterIcon = L.Icon.extend({
 (async () => {
     monstersFromAPI = await monsterAdapter.getAll();
     // Create monsters
-
+    wildMonsters = [...monstersFromAPI]
+    console.table(wildMonsters)
     // Render monsters
     monstersFromAPI.forEach(renderMonster);
     })();
