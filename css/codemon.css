@@ -4,12 +4,13 @@
 .grid-container {
     display: grid;
     grid-template-columns: 1fr 200px;
-    grid-template-rows: 75px 1fr 250px;
+    grid-template-rows: 75px 1fr 300px;
     grid-template-areas:
       "header header"
       "main sidenav" 
       "footer footer";
     height: 100vh;
+    padding: 0 100px;
   }
 
   /* Give every child element its grid name */
@@ -37,15 +38,13 @@
       "codemon5Num codemon5Img codemon5Name"
       "codemon6Num codemon6Img codemon6Name";
     height: 100%;
-    background-color: #8eacc0;
+    background-color: #E5C900;
   }
 
   .main {
     grid-area: main;
     background-color: #8fd4d9;
   }
-
-
 
   .quiz-footer {
     grid-area: footer;
@@ -56,18 +55,48 @@
       "quizHeader quizHeader"
       "questionA questionB" 
       "questionC questionD";
-    height: 100%;
-    background-color: #648ca6;
+    /* height: 100%; */
+    grid-gap: 0.5rem;
+    background-color: #ADD19E;
   }
 
   .caught-num {
 
   }
 
+  div.card {
+    display: grid;
+    justify-items: stretch;
+    align-items: stretch;
+  }
+
+  div.card-header {
+    padding: .5 rem;
+  }
+
+  .card-body {
+    padding: .75rem;
+    /* background-color: rgba(0,0,0,.03);
+    border-bottom: 1px solid rgba(0,0,0,.125); */
+}
+
+.blockquote {
+  font-size: .75rem;
+}
+
   .caught-img {
     width: 100%;
   }
 
+  p {
+    margin: 0;
+  }
+
   .caught-name {
     
+  }
+
+  body {
+    font-size: 0.75rem;
+    background-color: black;
   }
