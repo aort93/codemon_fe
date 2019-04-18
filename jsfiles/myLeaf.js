@@ -15,9 +15,9 @@ let monsterBoundaries = [];
 const foundPokecount = 0;
 let intersection = false;
 
-// DOM Variables
 let quizContainer = document.getElementById('quiz-container')
 let codemonBelt = document.getElementById('codemon-belt')
+const button = document.getElementById('butt');
 
 
 //Start Point of Game
@@ -48,7 +48,7 @@ let icon = L.marker(center, {
     icon: myIcon,
     zIndexOffset: 1500
   }).addTo(map)
-  // What i probably want to do... store location in a dif variable than the icon, change that 
+  // What i probably want to do... store location in a dif variable than the icon, change that
 
   // TODO: Add these circles for monsters on genereation
 let circle = new L.Circle(center, 35, {color: 'red', display: 'none'}).addTo(map);
@@ -57,6 +57,9 @@ let circle = new L.Circle(center, 35, {color: 'red', display: 'none'}).addTo(map
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
  attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
+
+// DOM Variables
+
 
 //********************************Game Application Run*************************************/
 
@@ -132,7 +135,7 @@ function playerStep(direction) {
 function checkIntersection() {
   let foundMonster = wildMonsters.find(monster => {
     return monster.monsterBorder.getBounds().intersects(circle.getBounds())
-  })  
+  })
     return foundMonster
 }
 
@@ -184,7 +187,7 @@ function renderBattle(monster) {
 function setMonster(e) {
   selectedMonster = wildMonsters.find(monster => monster.name === e.target.parentNode.dataset.monstername)
   return selectedMonster
-} 
+}
 
 function clearQuiz() {
   quizContainer.innerHTML = ""
@@ -245,11 +248,18 @@ function renderCaughtCodemonName(monster) {
 }
 
 
+
+button.addEventListener('click', buttonClick)
+
+function buttonClick(e) {
+  if (e.target.id === 'butt') {
+    document.getElementById('mysupercontainer').innerHTML = '';
+  }
+}
+
 //---------------------------helper -------------------
 // function to help us find longitude and latitude on our map
 // function onMapClick(e) {
 //   alert("You clicked the map at " + e.latlng);
 // }
 // map.on('click', onMapClick);
-
-
