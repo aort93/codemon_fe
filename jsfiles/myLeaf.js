@@ -173,6 +173,7 @@ function renderQuestion(monster) {
   questionBox.style.gridArea = "quizHeader"
 }
 
+
 // TODO: Make sure click listener is on the right element, fix sizing, round edges
 function renderAnswer(answer) {
   const answerBox = document.createElement('div')
@@ -258,6 +259,7 @@ function renderCaughtCodemonImg(monster) {
   const caughtImgDiv = document.createElement('div')
   const caughtImg = document.createElement('img')
   caughtImg.src = monster.image
+  caughtImgDiv.className = "caught-img"
   caughtImg.className = "caught-img"
   caughtImgDiv.appendChild(caughtImg)
   codemonBelt.appendChild(caughtImgDiv)
