@@ -144,7 +144,9 @@ function initiateQuiz(monster) {
 }
 
 quizContainer.addEventListener('click', function(e){
+  console.log(e.target)
   if (e.target.dataset.correct === "true") {
+    console.log("it's true!")
     catchMonster(setMonster(e))
   } else if (e.target.dataset.correct === "false") {
     monsterFled(setMonster(e))
@@ -157,17 +159,38 @@ function renderQuestion(monster) {
   const questionBox = document.createElement('div')
   // TODO: refactor to pull random question from this monsters question list after mvp
   questionBox.className = "question"
-  questionBox.innerText = monster.questions[0].question_text
+  questionBox.innerHTML += `<div class="card">
+  <div class="card-header">
+    Codemon Quiz! Now is your chance to catch ${monster.name}!
+  </div>
+  <div class="card-body">
+    <blockquote class="blockquote mb-0">
+      <p>${monster.questions[0].question_text}</p>
+    </blockquote>
+  </div>
+</div>`
   quizContainer.appendChild(questionBox)
   questionBox.style.gridArea = "quizHeader"
 }
 
+
+// TODO: Make sure click listener is on the right element, fix sizing, round edges
 function renderAnswer(answer) {
   const answerBox = document.createElement('div')
   answerBox.className = "answer"
   answerBox.dataset.letter = answer.letter
   answerBox.dataset.correct = answer.correct
-  answerBox.innerText = answer.letter + ". " + answer.answer_text
+  answerBox.innerHTML += `<div data-correct="${answer.correct}" class="card">
+  <div data-correct="${answer.correct}" class="card-header">
+  ${answer.letter}
+  </div>
+  <div data-correct="${answer.correct}" class="card-body">
+    <blockquote data-correct="${answer.correct}" class="blockquote mb-0">
+      <p data-correct="${answer.correct}">${answer.answer_text}</p>
+    </blockquote>
+  </div>
+</div>`
+
   quizContainer.appendChild(answerBox)
   answerBox.style.gridArea = "question"+answer.letter
 }
@@ -182,7 +205,13 @@ function renderBattle(monster) {
 
 // ********************************Interaction Outcome Logic*******************************
 function setMonster(e) {
-  selectedMonster = wildMonsters.find(monster => monster.name === e.target.parentNode.dataset.monstername)
+  if (e.target.parentNode.parentNode.dataset.monstername) {
+    selectedMonster = wildMonsters.find(monster => monster.name === e.target.parentNode.parentNode.dataset.monstername)
+  } else if (e.target.parentNode.parentNode.parentNode.dataset.monstername) {
+    selectedMonster = wildMonsters.find(monster => monster.name === e.target.parentNode.parentNode.parentNode.dataset.monstername)
+  } else if (e.target.parentNode.parentNode.parentNode.parentNode.parentNode.dataset.monstername) {
+    selectedMonster = wildMonsters.find(monster => monster.name === e.target.parentNode.parentNode.parentNode.parentNode.parentNode.dataset.monstername)
+  }
   return selectedMonster
 } 
 
@@ -230,6 +259,7 @@ function renderCaughtCodemonImg(monster) {
   const caughtImgDiv = document.createElement('div')
   const caughtImg = document.createElement('img')
   caughtImg.src = monster.image
+  caughtImgDiv.className = "caught-img"
   caughtImg.className = "caught-img"
   caughtImgDiv.appendChild(caughtImg)
   codemonBelt.appendChild(caughtImgDiv)
