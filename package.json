@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "leaflet-draw": "^1.0.4"
+    "leaflet-draw": "^1.0.4",
+    "package.json": "^2.0.1"
   },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-      "start": "node server.js"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
